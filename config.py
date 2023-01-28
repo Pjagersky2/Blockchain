@@ -1,7 +1,7 @@
 """Module containing the project configuration settings."""
 import os
 
-project_path = os.path.sep.join(__file__.split(os.path.sep)[:-2])
+project_path = os.path.sep.join(__file__.split(os.path.sep)[:-1])
 
 logdir = os.path.join(project_path, "logs")
 os.makedirs(logdir, exist_ok=True)
