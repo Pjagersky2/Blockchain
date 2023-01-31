@@ -2,11 +2,9 @@
 import json
 import logging
 import logging.config
-from argparse import ArgumentParser, Namespace
 from copy import deepcopy
 from datetime import datetime
 from hashlib import sha256
-from random import choice, randint
 from typing import Dict, List, Union
 
 from config import logger_config
@@ -129,48 +127,3 @@ class Blockchain:
         block_hash = sha256(block_bytes).hexdigest()
 
         return block_hash
-
-
-def get_random_wallets(total: int = 1) -> List[str]:
-    """Generate a random list of wallet addresses."""
-
-    wallet_addresses = []
-    for _ in range(total):
-        wallet_address = sha256(bytes(randint(10000, 99999))).hexdigest()
-        wallet_addresses.append(wallet_address)
-
-    return wallet_addresses
-
-
-def main(args: Namespace) -> None:
-    """Execute the main process."""
-
-    blockchain = Blockchain(verbose=args.verbose)
-
-    wallets = get_random_wallets(3)
-
-    for _ in range(randint(5, 10)):  # blocks
-        for _ in range(randint(2, 5)):  # transactions
-            amount = randint(1, 100000) / randint(20, 800)
-            blockchain.add_transaction(sender=choice(wallets),
-                                       recipient=choice(wallets),
-                                       amount=amount)
-
-        proof = blockchain.proof_of_work()
-        blockchain.mine_block(proof=proof)
-
-    print(json.dumps(blockchain.chain))
-
-
-if __name__ == "__main__":
-    parser = ArgumentParser()
-
-    parser.add_argument("-v",
-                        "--verbose",
-                        action="store_true",
-                        help="specify verbose flag to increase "
-                             "logging verbosity")
-
-    args = parser.parse_args()
-
-    main(args)
