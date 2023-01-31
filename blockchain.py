@@ -32,16 +32,21 @@ class Blockchain:
 
         self.mine_block(proof=1, previous_hash="1")
 
+    def __len__(self):
+        """The length of the blockchain."""
+
+        return len(self.chain)
+
     @property
     def last_block(self) -> __block:
         """The last block in the chain."""
 
         return self.chain[-1]
 
-    def mine_block(self, proof: int, previous_hash: str = "") -> None:
+    def mine_block(self, proof: int, previous_hash: str = "") -> __block:
         """Mine a new block into the chain."""
 
-        index = len(self.chain) + 1
+        index = len(self)
 
         timestamp = datetime.utcnow().timestamp()
 
@@ -63,6 +68,8 @@ class Blockchain:
 
         if self.verbose:
             logger.info(f"Mined new block into the chain with index: {index}")
+
+        return block
 
     def add_transaction(self,
                         sender: str,

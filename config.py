@@ -31,7 +31,7 @@ logger_config = {
     "loggers": {
         "blockchain": {
             "level": "DEBUG",
-            "handlers": ["console", "file"]
+            "handlers": ["file"]
         }
     }
 }
